@@ -218,6 +218,171 @@ WHERE class.name = ""
 
 # Retours
 
-Attention aux types de formations. Impacte les cours.
+> Attention aux types de formations.
 
-MCD : Jusitifier les relations en particuliers les modifications.
+> MCD : Jusitifier les relations en particuliers les modifications.
+
+## Modifications
+
+### Ajout du type de formation (filières)
+
+Ajout d'une table et de deux relations
+
+![](https://i.imgur.com/s3EQSpD.png)
+
+
+### Rassemblement des tables enseignants et des étudiants
+
+Précédement la séparation entre un étudiant et un enseignant, était faite en avec deux tables séparée. Chaqu'une de ces table disposaient d'une relation avec une table par type de personne avec leurs status. Cette erreur a été causée par une approche trop dévleloppement orientée objet. Voici la version mise à jour de cette relation.
+
+![Relation personne](https://i.imgur.com/ym985ut.png)
+
+
+### Revision de la gestion du temps
+
+Précédement, la prériode durant la quelle un élément se passe, était définit dans les tables directement. Afin d'avoir un système générique de gestion des periodes, j'ai décider d'ajouter une table `Moments` qui contient une date de début une date de fin ainsi qu'un type qui est un enum avec les cas suivants `ANNÉE`, `SEMESTRE` et `TRIMESTRE`.
+
+![Gestion du temps](https://i.imgur.com/jczOSUM.png)
+
+
+# Modèle Logique de Donnée
+
+```mermaid
+classDiagram
+    promotion_asserts -- sectors
+    courses -- subjects
+    courses -- examinations
+    courses -- moments
+    classes -- people
+    classes -- rooms
+    classes -- moments
+    classes -- sectors
+    people -- addresses
+    people -- status
+    students_classes -- classes
+    students_classes -- people
+    examinations -- grades
+    classes -- courses
+    class addresses {
+        integer id
+        integer zip
+        string town
+        string street
+        string number
+
+        Person[] people
+    }
+    class rooms {
+        integer id
+        string name UK
+    }
+    class classes {
+        integer id
+        string uid
+        string name
+        Moment moment
+        Room room
+        Person master
+        Sector sector
+        People[] students
+        pk(id)
+        fk(moment_id, room_id, person_id, sector_id)
+    }
+    class people {
+        integer id
+        string username
+        string lastname
+        string firstname
+        string email UK
+        string phone_number
+        string iban
+
+        Status status
+        Address address
+        Class[] classes
+        Enum(STUDENT, TEACHER) type
+        pk(id)
+        fk(address_id, status_id)
+    }
+    class status {
+        integer id
+        string title
+        string slug
+
+        Person[] people
+    }
+    class students_classes {
+        integer student_id
+        integer class_id
+
+        pk(student_id, class_id)
+        fk(student_id, class_id)
+    }
+    class sectors {
+        integer id
+        string name
+        Class[] classes
+        PromotionAssert[] promotion_asserts
+    }
+    class moments {
+        integer id
+        string uid
+        Date start_on
+        Date end_on
+
+        Class[] classes
+        Course[] courses
+        PromotionAssert[] promotion_asserts
+        Enum(QUARTER, SEMESTER, YEAR) type
+        pk(id)
+    }
+    class subjects {
+        integer id
+        string slug
+        string name
+
+        Cours[] courses
+    }
+    class courses {
+        integer id
+        Time start_at
+        Time end_at
+
+        Subject subject
+        Class class
+        Moment moment
+        Examination[] examinations
+        Enum(MONDAY: 0, TUESDAY: 1, WEDNESDAY: 2, THURSDAY: 3, FRIDAY: 4, SATURDAY: 5, SUNDAY: 6) week_day
+        pk(id)
+        fk(class_id, subject_id, moment_id)
+    }
+    class examinations {
+        integer id
+        string title
+        Date effective_date
+
+        Grade[] grades
+        Course course
+        pk(id)
+        fk(course_id)
+    }
+    class grades {
+        integer id
+        sting title
+        Date execute_on
+
+        Examination examination
+        Person student
+    }
+    class promotion_asserts {
+        integer id
+        string description
+        Function function
+
+        Moment moment FK
+        Sector sector FK
+        pk(id)
+        fk(sector_id, moment_id)
+    }
+```
+
