@@ -54,104 +54,100 @@ attention particulière aux élèves qui double.
 ## Questions/réponses
 
 ### Q1
+
 #### Est-ce que tous les élève au sein d'un classe on FORCEMENT les même leçon ?
 
 > Oui
 
-
 ### Q2
+
 #### Avez-vous des cas spéciaux que vous voulez que nous tenions compte ?
 
 > Non
 >
 
 ### Q3
+
 #### Des semaines spéciales
 
 > Non
 >
 
 ### Q4
+
 #### Des appuis (évènement en dehors des cours programmés)
 
 > Non
 >
 
-
 ### Q5
+
 #### Des fonctionnalité que vous voulez que la future application soit capable de faire ? _Exemple l’ajout de devoirs_
 
 > Non
 
-
-
 ### Q6
+
 #### Seulement 3 Entité ? par de salle, bâtiment ou autre ?
 
 > Oui, les salles en sachant qu’une classe à toujours la même salle. On doit pouvoir changer la salle d’une classe. Pas
 > de bâtiment.
 
-
-
 ### Q7
+
 #### Voulez-vous un historique ?
 
 > Oui
 >
 
-
-
 ### Q8
+
 #### Comment fonctionne les promotion ? trimestre semestre libre ?
 
 > Par semestre et moyenne de toute les groupes de matière générale supérieurs à 4 et modules validés
 >
 
-
-
 ### Q9
+
 #### Est-ce que vous voulez que les conditions de promotion soie stockée dans la db ?
 
 > Oui stocké les fonction, et garder un historique
 >
 
-
-
 ### Q10
+
 #### Est-ce que l’enseignant est déterminé par la branche ou par la leçon ?
 
 > Toujours le même enseignant par branche/cours mais peut être changé
 >
 
-
-
 ### Q11
+
 #### Voulez-vous pouvoir attribuer certaine chose à une période spécifique ? (devoir)
 
 > Non
 >
 
 ### Q12
+
 #### Voulez-vous que certaines informations administrative tel que le nombre de période requis de tel cours soient stockées ?
 
 >
 >
 
-
-
 ### Q13
+
 #### Voulez-vous que les conditions de promotions dispose d’un champs d’explication de la fonction
 
 >
 >
 
-
 ### Q14
+
 #### Les vacances sont-elles stockées ? Ou l’on part du principe que les semaines de vacances n’existent pas ?
 
 >
 >
-
 
 ### Autres informations
 
@@ -183,16 +179,12 @@ Une liste non exhaustive :
 
 - La classe ne pourra pas être la même pour les prochains élèves
 
-    | Nom de la classe | Année scolaire | Étudiants                   |
-    |------------------|----------------|-----------------------------|
-    | SI-T1a           | 21-22          | Jean-Pierre, Paul et Jaques |
-    | SI-T1a           | 22-23          | Arnaud, Julie et Anthony    |
+  | Nom de la classe | Année scolaire | Étudiants                   |
+  |------------------|----------------|-----------------------------|
+  | SI-T1a           | 21-22          | Jean-Pierre, Paul et Jaques |
+  | SI-T1a           | 22-23          | Arnaud, Julie et Anthony    |
 
 - Les conditions de promotions devrons êtres unique par “promotions”
-
-| Fonction condition de promotion                                                | Année scolaire |
-|--------------------------------------------------------------------------------|----------------|
-
 
 ### [#8](https://www.notion.so/DB-ES-33b7dc96b66f439d8e6e901289a43280?pvs=21) et [#9](https://www.notion.so/DB-ES-33b7dc96b66f439d8e6e901289a43280?pvs=21)
 
@@ -202,19 +194,6 @@ année.
 ### [#10](https://www.notion.so/DB-ES-33b7dc96b66f439d8e6e901289a43280?pvs=21)
 
 Le cours programmé définit l’enseignant des périodes.
-
-# Pseudo SQL
-
-### Récupération de l’horaire
-
-On récupère le nom, l’heure de début, l’heure de fin, la date du cours, les informations de la classe, les informations
-de la salle de cours, les informations de l’enseignant. Depuis Cours en fonction de la classe et du trimestre
-
-```sql
-SELECT name, start_at, end_at, cours_date, class, class.classroom as classroom, teacher
-FROM Cours
-WHERE class.name = ""
-```
 
 # Retours
 
@@ -230,20 +209,21 @@ Ajout d'une table et de deux relations
 
 ![](https://i.imgur.com/s3EQSpD.png)
 
-
 ### Rassemblement des tables enseignants et des étudiants
 
-Précédement la séparation entre un étudiant et un enseignant, était faite en avec deux tables séparée. Chaqu'une de ces table disposaient d'une relation avec une table par type de personne avec leurs status. Cette erreur a été causée par une approche trop dévleloppement orientée objet. Voici la version mise à jour de cette relation.
+Précédement la séparation entre un étudiant et un enseignant, était faite en avec deux tables séparée. Chaqu'une de ces
+table disposaient d'une relation avec une table par type de personne avec leurs status. Cette erreur a été causée par
+une approche trop dévleloppement orientée objet. Voici la version mise à jour de cette relation.
 
 ![Relation personne](https://i.imgur.com/ym985ut.png)
 
-
 ### Revision de la gestion du temps
 
-Précédement, la prériode durant la quelle un élément se passe, était définit dans les tables directement. Afin d'avoir un système générique de gestion des periodes, j'ai décider d'ajouter une table `Moments` qui contient une date de début une date de fin ainsi qu'un type qui est un enum avec les cas suivants `ANNÉE`, `SEMESTRE` et `TRIMESTRE`.
+Précédement, la prériode durant la quelle un élément se passe, était définit dans les tables directement. Afin d'avoir
+un système générique de gestion des periodes, j'ai décider d'ajouter une table `Moments` qui contient une date de début
+une date de fin ainsi qu'un type qui est un enum avec les cas suivants `ANNÉE`, `SEMESTRE` et `TRIMESTRE`.
 
 ![Gestion du temps](https://i.imgur.com/jczOSUM.png)
-
 
 # Modèle Logique de Donnée
 
@@ -269,7 +249,6 @@ classDiagram
         string town
         string street
         string number
-
         Person[] people
     }
     class rooms {
@@ -296,7 +275,6 @@ classDiagram
         string email UK
         string phone_number
         string iban
-
         Status status
         Address address
         Class[] classes
@@ -308,13 +286,11 @@ classDiagram
         integer id
         string title
         string slug
-
         Person[] people
     }
     class students_classes {
         integer student_id
         integer class_id
-
         pk(student_id, class_id)
         fk(student_id, class_id)
     }
@@ -329,7 +305,6 @@ classDiagram
         string uid
         Date start_on
         Date end_on
-
         Class[] classes
         Course[] courses
         PromotionAssert[] promotion_asserts
@@ -340,14 +315,12 @@ classDiagram
         integer id
         string slug
         string name
-
         Cours[] courses
     }
     class courses {
         integer id
         Time start_at
         Time end_at
-
         Subject subject
         Class class
         Moment moment
@@ -360,7 +333,6 @@ classDiagram
         integer id
         string title
         Date effective_date
-
         Grade[] grades
         Course course
         pk(id)
@@ -368,17 +340,17 @@ classDiagram
     }
     class grades {
         integer id
-        sting title
+        integer value
         Date execute_on
-
         Examination examination
         Person student
+        pk(id)
+        fk(examination_id, student_id)
     }
     class promotion_asserts {
         integer id
         string description
         Function function
-
         Moment moment FK
         Sector sector FK
         pk(id)

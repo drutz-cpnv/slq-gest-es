@@ -121,11 +121,13 @@ classDiagram
     }
     class grades {
         integer id
-        sting title
+        integer value
         Date execute_on
 
         Examination examination
         Person student
+        pk(id)
+        fk(examination_id, student_id)
     }
     class promotion_asserts {
         integer id
