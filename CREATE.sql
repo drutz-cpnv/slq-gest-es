@@ -39,7 +39,9 @@ create table if not exists statuses
     id    int auto_increment
         primary key,
     slug  varchar(100) not null,
-    title varchar(100) not null
+    title varchar(100) not null,
+    constraint statuses_slug_uindex
+        unique (slug)
 );
 
 create table if not exists people
