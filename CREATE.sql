@@ -1,3 +1,6 @@
+CREATE DATABASE sql1_es_test2;
+USE sql1_es_test2;
+
 create table if not exists addresses
 (
     id     int auto_increment
@@ -16,7 +19,7 @@ create table if not exists moments
     start_on date                                 not null,
     end_on   date                                 not null,
     type     enum ('QUARTER', 'SEMESTER', 'YEAR') not null,
-    constraint moments_uid_uindex
+    constraint moments_uid_uk
         unique (uid)
 );
 
@@ -40,7 +43,7 @@ create table if not exists statuses
         primary key,
     slug  varchar(100) not null,
     title varchar(100) not null,
-    constraint statuses_slug_uindex
+    constraint status_slug_uk
         unique (slug)
 );
 
@@ -57,11 +60,11 @@ create table if not exists people
     iban         varchar(34)                                   null,
     status_id    int                                           not null,
     address_id   int                                           null,
-    constraint people_uk
+    constraint person_uk
         unique (email, phone_number, username),
-    constraint people_address_fk
+    constraint person_address_fk
         foreign key (address_id) references addresses (id),
-    constraint people_status_fk
+    constraint person_status_fk
         foreign key (status_id) references statuses (id)
 );
 
@@ -75,7 +78,7 @@ create table if not exists classes
     section_id int          not null,
     room_id    int          null,
     master_id  int          null,
-    constraint classes_uid_uindex
+    constraint class_uid_uk
         unique (uid),
     constraint class_moment_fk
         foreign key (moment_id) references moments (id),
@@ -84,7 +87,7 @@ create table if not exists classes
             on update set null,
     constraint class_section_fk
         foreign key (section_id) references sections (id),
-    constraint classes_master_fk
+    constraint class_master_fk
         foreign key (master_id) references people (id)
 );
 
@@ -103,10 +106,10 @@ create table if not exists classes_students
             on delete cascade
 );
 
-create index people_username_index
+create index person_username_index
     on people (username);
 
-create index statuses_slug_index
+create index status_slug_index
     on statuses (slug);
 
 create table if not exists subjects
@@ -115,7 +118,7 @@ create table if not exists subjects
         primary key,
     slug varchar(100) not null,
     name varchar(100) not null,
-    constraint subjects_pk2
+    constraint subject_uk
         unique (slug)
 );
 
@@ -136,10 +139,10 @@ create table if not exists courses
     constraint course_teacher_fk
         foreign key (teacher_id) references people (id)
             on delete set null,
-    constraint courses_class_fk
+    constraint course_class_fk
         foreign key (class_id) references classes (id)
             on delete cascade,
-    constraint courses_moment_fk
+    constraint course_moment_fk
         foreign key (moment_id) references moments (id),
     constraint check_start_time_down_from_end
         check (`start_at` < `end_at`)
@@ -152,7 +155,7 @@ create table if not exists examinations
     title          varchar(45) not null,
     effective_date date        not null,
     course_id      int         not null,
-    constraint examinations_course_fk
+    constraint examination_course_fk
         foreign key (course_id) references courses (id)
             on delete cascade
 );
@@ -165,9 +168,9 @@ create table if not exists grades
     executed_on    date not null,
     examination_id int  not null,
     student_id     int  not null,
-    constraint grades_examination_fk
+    constraint grade_examination_fk
         foreign key (examination_id) references examinations (id),
-    constraint grades_student_fk
+    constraint grade_student_fk
         foreign key (student_id) references people (id)
 );
 
