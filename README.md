@@ -225,6 +225,10 @@ une date de fin ainsi qu'un type qui est un enum avec les cas suivants `ANNÉE`,
 
 ![Gestion du temps](https://i.imgur.com/jczOSUM.png)
 
+# Modèle Conceptuel de Donnée
+
+![MCD](https://i.imgur.com/Vxc16LI.png)
+
 # Modèle Logique de Donnée
 
 ```mermaid
