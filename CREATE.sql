@@ -98,10 +98,10 @@ create table if not exists students_follow_classes
 (
     student_id int not null,
     class_id   int not null,
-    constraint classes_class_fk
+    constraint class_student_fk
         foreign key (class_id) references classes (id)
             on delete cascade,
-    constraint classes_student_fk
+    constraint student_class_fk
         foreign key (student_id) references people (id)
             on delete cascade
 );

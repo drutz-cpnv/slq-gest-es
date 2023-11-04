@@ -11,7 +11,7 @@ INSERT INTO moments(uid, start_on, end_on, type) VALUES
 INSERT INTO classes(uid, name, moment_id, section_id, room_id, master_id)
     VALUES ('si_t2a_2425', 'SI-T2a', (SELECT id AS moment_id FROM moments WHERE uid = 'Y2425'), 1, (SELECT id FROM rooms WHERE name = 'SC-C332'), 4);
 
-INSERT INTO classes_students(student_id, class_id)
+INSERT INTO students_follow_classes(student_id, class_id)
     SELECT id as student_id, (SELECT id AS class_id FROM classes WHERE uid = 'si_t2a_2425')
     FROM people
     WHERE username IN ('dimitri_rutz' 'andros_terbeck', 'anetta_carne', 'anetta_mehew', 'arda_noades', 'ardelia_dolley', 'ardys_gostyke', 'arleen_spincke', 'ashley_ellwood', 'aubine_o_fihily', 'auguste_whyman', 'avery_lux', 'berna_nissle', 'bernadene_kleinmintz', 'berny_dalli', 'bertie_overshott', 'bessy_cough', 'bibbie_geere', 'billie_devanny', 'blanca_loughead', 'bunny_harcarse', 'camella_lind');
@@ -25,7 +25,7 @@ INSERT INTO classes_students(student_id, class_id)
 INSERT INTO classes(uid, name, moment_id, section_id, room_id, master_id)
 VALUES ('si_t1a_2425', 'SI-T1a', (SELECT id AS moment_id FROM moments WHERE uid = 'Y2425'), 1, (SELECT id FROM rooms WHERE name = 'SC-C331'), 4);
 
-INSERT INTO classes_students(student_id, class_id)
+INSERT INTO students_follow_classes(student_id, class_id)
     SELECT id as student_id, (SELECT id AS class_id FROM classes WHERE uid = 'si_t1a_2425')
     FROM people
     WHERE username = 'dimitri_rutz';
