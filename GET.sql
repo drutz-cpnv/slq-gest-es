@@ -1,17 +1,17 @@
-SELECT (checking.check_sum >= checking.subject_count) AS is_valid
-FROM (SELECT SUM(check_subjects.valid) AS check_sum, AVG(subject_count) AS subject_count
-      FROM (SELECT IF(AVG(g.value) < 400, FALSE, TRUE) AS valid, COUNT(subject_id) - 1 AS subject_count, student_id
-            FROM grades g
-                     LEFT JOIN people s on s.id = g.student_id
-                     LEFT JOIN examinations e ON e.id = g.examination_id
-                     LEFT JOIN courses c ON c.id = e.course_id
-                     LEFT JOIN subjects sub ON sub.id = c.subject_id
-            WHERE s.id = 1
-              AND e.effective_date BETWEEN (SELECT start_on FROM moments WHERE uid = 'Y2324S1') AND (SELECT end_on FROM moments WHERE uid = 'Y2324S1')
-            GROUP BY c.subject_id)
-               As check_subjects
-      GROUP BY check_subjects.student_id)
-         AS checking;
+# SELECT (checking.check_sum >= checking.subject_count) AS is_valid
+# FROM (SELECT SUM(check_subjects.valid) AS check_sum, AVG(subject_count) AS subject_count
+#       FROM (SELECT IF(AVG(g.value) < 400, FALSE, TRUE) AS valid, COUNT(subject_id) - 1 AS subject_count, student_id
+#             FROM grades g
+#                      LEFT JOIN people s on s.id = g.student_id
+#                      LEFT JOIN examinations e ON e.id = g.examination_id
+#                      LEFT JOIN courses c ON c.id = e.course_id
+#                      LEFT JOIN subjects sub ON sub.id = c.subject_id
+#             WHERE s.id = 1
+#               AND e.effective_date BETWEEN (SELECT start_on FROM moments WHERE uid = 'Y2324S1') AND (SELECT end_on FROM moments WHERE uid = 'Y2324S1')
+#             GROUP BY c.subject_id)
+#                As check_subjects
+#       GROUP BY check_subjects.student_id)
+#          AS checking;
 
 -- SET @statement = (SELECT assert_function FROM test WHERE id = 1);
 --
