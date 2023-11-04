@@ -1,5 +1,5 @@
-CREATE DATABASE sql1_es_test2;
-USE sql1_es_test2;
+CREATE DATABASE drz_sql1;
+USE drz_sql1;
 
 create table if not exists addresses
 (
@@ -94,7 +94,7 @@ create table if not exists classes
 create index class_master_fk
     on classes (master_id);
 
-create table if not exists classes_students
+create table if not exists students_follow_classes
 (
     student_id int not null,
     class_id   int not null,
