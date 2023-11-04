@@ -1,4 +1,4 @@
-insert into drz_sql1.classes_students (student_id, class_id)
+insert into drz_sql1.classes_follow_students (student_id, class_id)
 values  (1, 1),
         (507, 4),
         (101, 4),
